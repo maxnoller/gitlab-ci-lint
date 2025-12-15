@@ -1,0 +1,22 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build-job:
+  stage: build
+  script:
+    - echo "Building..."
+
+test-job:
+  stage: test
+  needs: ["build-job"]
+  script:
+    - echo "Testing..."
+
+deploy-job:
+  stage: deploy
+  script:
+    - echo "Deploying..."
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

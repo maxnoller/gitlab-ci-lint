@@ -1,0 +1,6 @@
+- id: gitlab-ci-lint
+  name: GitLab CI Lint
+  entry: gitlab-ci-lint
+  language: python
+  files: \.gitlab-ci\.yml$
+  types: [yaml]
