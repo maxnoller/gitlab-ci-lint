@@ -32,7 +32,7 @@ tasks:
       - 'uv.lock'
 
   commitlint:
-    command: npx commitlint --edit
+    command: npx commitlint --from HEAD~1
     platform: node
     inputs:
       - 'commitlint.config.js'
