@@ -1,9 +1,8 @@
-import click
 import json
-import os
-from typing import List
+
+import click
 from rich.console import Console
-from rich.table import Table
+
 from .linter import GitLabCILinter
 
 console = Console()

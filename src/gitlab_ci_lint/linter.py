@@ -1,15 +1,16 @@
-import yaml
+
 import jsonschema
-from typing import List, Dict, Any
+import yaml
+
 from .schema import load_schema
-from .semantic import check_needs, check_stages, check_extends, check_circular_extends
+from .semantic import check_circular_extends, check_extends, check_needs, check_stages
 
 
 class GitLabCILinter:
     def __init__(self):
         self.schema = load_schema()
 
-    def lint(self, content: str) -> List[str]:
+    def lint(self, content: str) -> list[str]:
         """Lint the provided YAML content and return a list of error messages."""
         errors = []
 
@@ -47,10 +48,10 @@ class GitLabCILinter:
 
         return errors
 
-    def lint_file(self, path: str) -> List[str]:
+    def lint_file(self, path: str) -> list[str]:
         """Lint a file from disk."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 content = f.read()
             return self.lint(content)
         except Exception as e:

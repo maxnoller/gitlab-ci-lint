@@ -1,7 +1,7 @@
-from typing import Dict, List, Any, Set
+from typing import Any
 
 
-def get_jobs(config: Dict[str, Any]) -> Dict[str, Any]:
+def get_jobs(config: dict[str, Any]) -> dict[str, Any]:
     """Extract job definitions from config, excluding hidden jobs and keywords."""
     jobs = {}
     reserved_keywords = {
@@ -30,7 +30,7 @@ def get_jobs(config: Dict[str, Any]) -> Dict[str, Any]:
     return jobs
 
 
-def check_needs(config: Dict[str, Any]) -> List[str]:
+def check_needs(config: dict[str, Any]) -> list[str]:
     """Verify that jobs listed in 'needs' actually exist."""
     errors = []
     jobs = get_jobs(config)
@@ -45,27 +45,22 @@ def check_needs(config: Dict[str, Any]) -> List[str]:
             continue  # Schema validation handles this
 
         for need in needs:
-            if isinstance(need, dict):
-                target = need.get("job")
-            else:
-                target = need
+            target = need.get("job") if isinstance(need, dict) else need
 
-            if target and target not in job_names:
-                # needs can refer to jobs in other pipelines (project key),
-                # strictly local jobs must exist.
-                # simple check: if it's just a string or dict with only 'job', it should be local?
-                # Actually, 'needs' can be complex. For now, we warn if it looks like a local job name
-                if isinstance(need, str) or (
-                    isinstance(need, dict) and "project" not in need
-                ):
-                    errors.append(
-                        f"Job '{job_name}' needs '{target}', which does not exist in this file."
-                    )
+            # needs can refer to jobs in other pipelines (project key),
+            # strictly local jobs must exist.
+            is_local_need = isinstance(need, str) or (
+                isinstance(need, dict) and "project" not in need
+            )
+            if target and target not in job_names and is_local_need:
+                errors.append(
+                    f"Job '{job_name}' needs '{target}', which does not exist in this file."
+                )
 
     return errors
 
 
-def check_stages(config: Dict[str, Any]) -> List[str]:
+def check_stages(config: dict[str, Any]) -> list[str]:
     """Verify that jobs rely on defined stages."""
     errors = []
     jobs = get_jobs(config)
@@ -74,14 +69,12 @@ def check_stages(config: Dict[str, Any]) -> List[str]:
     for job_name, job_def in jobs.items():
         stage = job_def.get("stage")
         if stage and stage not in defined_stages:
-            errors.append(
-                f"Job '{job_name}' assignment to stage '{stage}' which is not defined."
-            )
+            errors.append(f"Job '{job_name}' assignment to stage '{stage}' which is not defined.")
 
     return errors
 
 
-def check_extends(config: Dict[str, Any]) -> List[str]:
+def check_extends(config: dict[str, Any]) -> list[str]:
     """Verify 'extends' references exist (including hidden jobs)."""
     errors = []
     # All keys can be extended, including hidden ones
@@ -105,7 +98,7 @@ def check_extends(config: Dict[str, Any]) -> List[str]:
     return errors
 
 
-def check_circular_extends(config: Dict[str, Any]) -> List[str]:
+def check_circular_extends(config: dict[str, Any]) -> list[str]:
     """Detect circular dependencies in 'extends'."""
     errors = []
 
@@ -118,9 +111,7 @@ def check_circular_extends(config: Dict[str, Any]) -> List[str]:
 
         while True:
             if current in visited:
-                errors.append(
-                    f"Circular dependency detected in 'extends': {' -> '.join(path)}"
-                )
+                errors.append(f"Circular dependency detected in 'extends': {' -> '.join(path)}")
                 break
 
             visited.add(current)
