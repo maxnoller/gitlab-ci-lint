@@ -8,7 +8,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       
@@ -21,5 +22,10 @@ jobs:
       - name: Build package
         run: uv build
         
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to GitHub Packages
+        run: |
+          uv pip install twine --system
+          twine upload --repository-url https://ghcr.io/v2/${{ github.repository_owner }}/gitlab-ci-lint dist/*
+        env:
+          TWINE_USERNAME: ${{ github.actor }}
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
