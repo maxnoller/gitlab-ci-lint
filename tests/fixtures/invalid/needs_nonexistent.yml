@@ -1,0 +1,13 @@
+# Semantic error - needs nonexistent job
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script: echo "build"
+
+test:
+  stage: test
+  needs: [nonexistent-job]
+  script: echo "test"

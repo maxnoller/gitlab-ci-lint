@@ -1,0 +1,6 @@
+# YAML syntax error - unclosed bracket
+stages:
+  - build
+
+build:
+  script: [echo "hello"

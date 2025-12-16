@@ -1,0 +1,27 @@
+# Valid GitLab CI with multi-level extends chain
+stages:
+  - build
+
+.base-template:
+  before_script:
+    - echo "Base setup"
+
+.build-template:
+  extends: .base-template
+  stage: build
+  after_script:
+    - echo "Build cleanup"
+
+.docker-template:
+  extends: .build-template
+  image: docker:latest
+
+build-app:
+  extends: .docker-template
+  script:
+    - echo "Building app"
+
+build-library:
+  extends: .build-template
+  script:
+    - echo "Building library"

@@ -1,0 +1,17 @@
+# Unicode in job names
+stages:
+  - build
+  - テスト
+  - déployer
+
+build-日本語:
+  stage: build
+  script: echo "Building with 日本語"
+
+test-ü:
+  stage: テスト
+  script: echo "Testing with émojis 🚀"
+
+deploy-français:
+  stage: déployer
+  script: echo "Déploiement en français"

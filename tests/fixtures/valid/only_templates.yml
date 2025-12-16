@@ -1,0 +1,13 @@
+# Valid GitLab CI with only hidden template jobs
+.template-a:
+  script: echo "Template A"
+
+.template-b:
+  extends: .template-a
+  before_script:
+    - echo "Before B"
+
+.template-c:
+  image: alpine:latest
+  variables:
+    FOO: bar

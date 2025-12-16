@@ -1,0 +1,9 @@
+# Schema error - wrong type for artifacts.paths
+stages:
+  - build
+
+build:
+  stage: build
+  script: echo "hello"
+  artifacts:
+    paths: "should-be-an-array"

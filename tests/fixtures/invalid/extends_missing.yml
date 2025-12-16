@@ -1,0 +1,8 @@
+# Semantic error - extends missing template
+stages:
+  - build
+
+build:
+  stage: build
+  extends: .nonexistent-template
+  script: echo "hello"

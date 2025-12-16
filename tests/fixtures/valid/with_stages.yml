@@ -1,7 +1,14 @@
+# Valid GitLab CI with custom stages
 stages:
+  - lint
   - build
   - test
   - deploy
+
+lint-job:
+  stage: lint
+  script:
+    - echo "Linting..."
 
 build-job:
   stage: build
@@ -10,7 +17,6 @@ build-job:
 
 test-job:
   stage: test
-  needs: ["build-job"]
   script:
     - echo "Testing..."
 
@@ -18,5 +24,3 @@ deploy-job:
   stage: deploy
   script:
     - echo "Deploying..."
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"

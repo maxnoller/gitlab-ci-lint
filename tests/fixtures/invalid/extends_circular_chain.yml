@@ -1,0 +1,20 @@
+# Semantic error - circular extends chain (A -> B -> C -> A)
+stages:
+  - build
+
+.template-a:
+  extends: .template-c
+  script: echo "A"
+
+.template-b:
+  extends: .template-a
+  script: echo "B"
+
+.template-c:
+  extends: .template-b
+  script: echo "C"
+
+build:
+  stage: build
+  extends: .template-a
+  script: echo "build"

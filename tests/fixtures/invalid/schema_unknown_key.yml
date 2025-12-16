@@ -1,0 +1,8 @@
+# Schema error - unknown property
+stages:
+  - build
+
+build:
+  stage: build
+  script: echo "hello"
+  unknownProperty: "this should not exist"

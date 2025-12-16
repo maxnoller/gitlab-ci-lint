@@ -1,0 +1,8 @@
+# Semantic error - undefined stage
+stages:
+  - build
+  - test
+
+deploy:
+  stage: deploy
+  script: echo "deploy"

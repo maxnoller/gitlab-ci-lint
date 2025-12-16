@@ -1,0 +1,8 @@
+# Semantic error - self-extending job (circular)
+stages:
+  - build
+
+build:
+  stage: build
+  extends: build
+  script: echo "hello"

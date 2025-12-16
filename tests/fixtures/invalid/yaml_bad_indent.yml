@@ -1,0 +1,7 @@
+# YAML syntax error - bad indentation
+stages:
+  - build
+
+build:
+stage: build
+  script: echo "hello"

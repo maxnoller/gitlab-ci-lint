@@ -1,0 +1,35 @@
+# Valid GitLab CI with DAG using needs
+stages:
+  - build
+  - test
+  - deploy
+
+build-frontend:
+  stage: build
+  script: echo "Building frontend"
+
+build-backend:
+  stage: build
+  script: echo "Building backend"
+
+test-frontend:
+  stage: test
+  needs: [build-frontend]
+  script: echo "Testing frontend"
+
+test-backend:
+  stage: test
+  needs: [build-backend]
+  script: echo "Testing backend"
+
+integration-test:
+  stage: test
+  needs:
+    - job: build-frontend
+    - job: build-backend
+  script: echo "Integration testing"
+
+deploy:
+  stage: deploy
+  needs: [test-frontend, test-backend, integration-test]
+  script: echo "Deploying"
