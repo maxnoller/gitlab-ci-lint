@@ -2,75 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
 
 jobs:
-  lint:
+  ci:
+    name: CI
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-        
-      - name: Set up Python
-        run: uv python install 3.12
-        
-      - name: Install dependencies
-        run: uv sync --dev
-        
-      - name: Run Ruff
-        run: uv run ruff check .
-        
-      - name: Run Ruff format check
-        run: uv run ruff format --check .
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-        
-      - name: Set up Python
-        run: uv python install 3.12
-        
-      - name: Install dependencies
-        run: uv sync --dev
-        
-      - name: Run basedpyright
-        run: uv run basedpyright
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v4
-        
-      - name: Set up Python
-        run: uv python install 3.12
-        
-      - name: Install dependencies
-        run: uv sync --dev
-        
-      - name: Run tests
-        run: uv run pytest tests/ -v
-
-  commitlint:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
-      - name: Install commitlint
-        run: npm install -g @commitlint/cli @commitlint/config-conventional
-        
-      - name: Validate commits
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+      - uses: moonrepo/setup-moon-action@v1
+
+      - run: moon ci

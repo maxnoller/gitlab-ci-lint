@@ -1,4 +1,3 @@
-
 import jsonschema
 import yaml
 
@@ -31,9 +30,7 @@ class GitLabCILinter:
             # Create a more readable error path
             path = ".".join(str(p) for p in e.path)
             error_msg = (
-                f"Schema error at '{path}': {e.message}"
-                if path
-                else f"Schema error: {e.message}"
+                f"Schema error at '{path}': {e.message}" if path else f"Schema error: {e.message}"
             )
             errors.append(error_msg)
             # We continue to find semantic errors if possible, but often schema errors make structure invalid

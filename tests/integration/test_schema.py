@@ -1,7 +1,5 @@
 """Integration tests for schema loading and caching."""
 
-import pytest
-
 from gitlab_ci_lint.schema import load_schema
 
 

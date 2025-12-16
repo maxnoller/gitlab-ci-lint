@@ -1,0 +1,38 @@
+language: python
+platform: system
+
+tasks:
+  lint:
+    command: uv run ruff check .
+    inputs:
+      - 'src/**/*'
+      - 'pyproject.toml'
+      - 'uv.lock'
+
+  format:
+    command: uv run ruff format .
+    inputs:
+      - 'src/**/*'
+      - 'pyproject.toml'
+      - 'uv.lock'
+
+  typecheck:
+    command: uv run basedpyright
+    inputs:
+      - 'src/**/*'
+      - 'pyproject.toml'
+      - 'uv.lock'
+
+  test:
+    command: uv run pytest
+    inputs:
+      - 'src/**/*'
+      - 'tests/**/*'
+      - 'pyproject.toml'
+      - 'uv.lock'
+
+  commitlint:
+    command: npx commitlint --edit
+    platform: node
+    inputs:
+      - 'commitlint.config.js'

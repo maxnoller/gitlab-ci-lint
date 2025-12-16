@@ -1,0 +1,14 @@
+projects:
+  sources:
+    root: .
+
+vcs:
+  manager: git
+  defaultBranch: main
+  hooks:
+    pre-commit:
+      - "moon run root:lint"
+      - "moon run root:format"
+      - "moon run root:typecheck"
+    commit-msg:
+      - "moon run root:commitlint --"
